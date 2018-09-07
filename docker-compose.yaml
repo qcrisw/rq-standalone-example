@@ -1,0 +1,18 @@
+version: '3.5'
+services:
+  redis:
+    image: redis:latest
+  producer:
+    build: producer
+    environment: 
+      - REDIS_URL=redis://redis:6379/0
+      - OUT_QUEUE=default
+    volumes:
+      - ./producer:/home
+  consumer:
+    build: consumer
+    environment: 
+      - REDIS_URL=redis://redis:6379/0
+      - IN_QUEUE=default
+    volumes:
+      - ./consumer:/home
