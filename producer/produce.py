@@ -2,6 +2,7 @@ from os import environ as env
 from urllib.parse import uses_netloc, urlparse
 from redis import StrictRedis
 from rq import Queue
+from json import dumps
 
 queue_name = env['OUT_QUEUE']
 url = env['REDIS_URL']
@@ -16,6 +17,6 @@ q = Queue(queue_name, connection=conn)
 
 for i in range(1, 2):
   print("Producing job %d" % i)
-  q.enqueue('consumer1.consume.consume_func', i)
+  q.enqueue('consumer1.consume.consume_func', {'a': i})
   print("Producing job %d" % (i+1))
-  q.enqueue('consumer1.consume.consume_func', f"{i+1}".encode('utf-8'), raw=True)
+  q.enqueue('consumer1.consume.consume_func', dumps({'a' : i+1}).encode('utf-8'), raw=True)
