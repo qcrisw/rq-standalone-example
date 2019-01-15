@@ -1,5 +1,8 @@
+from json import loads
+
 def consume_func(job, raw=False):
+  # import logging; logging.basicConfig(level=logging.DEBUG)
+  # logging.info(raw)
   if raw:
-    job = job.decode('utf-8')
-    job = int(job)
-  print("Consumed job %d" % job)
+    job = loads(job.decode('utf-8'))
+  print(f"consumed job {job['a']}")
